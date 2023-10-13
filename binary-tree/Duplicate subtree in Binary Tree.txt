@@ -1,0 +1,30 @@
+Given a binary tree, find out whether it contains a duplicate sub-tree of size two or more, or not.
+
+Note: Two same leaf nodes are not considered as subtree as size of a leaf node is one. 
+
+ANSWER
+
+class Solution {
+  public:
+    map<string, int> mp;
+    string solve (Node* root) {
+        if (!root) return "$";
+        string s = "";
+        if (!root -> right and !root->left) {
+            s += to_string(root -> data);
+            return s;
+        }
+        s += to_string(root -> data);
+        s += '/';
+        s += solve (root -> left);
+        s += solve (root -> right);
+        mp[s]++;
+        return s;
+    }
+    int dupSub(Node *root) {
+        solve(root);
+        for (auto it:mp)
+        if (it.second >= 2) return true;
+        return false;
+    }
+};
